@@ -1,6 +1,6 @@
 # τ³ Reliability Lab: sample report
 
-Prepared on 20 October 2026 as an independent, AI-assisted benchmarking work sample.
+Prepared on 20 October 2026; strengthened on 21 October 2026. An independent, AI-assisted benchmarking work sample.
 
 ## Problem and implementation
 
@@ -37,6 +37,12 @@ The important distinction is outcome correctness versus policy obligations. Keep
 Agent inputs contain policy, tool schemas, and conversation. Customer inputs contain scenario instructions and customer-visible dialogue. Expected actions are evaluator-only. Temporary working directories and native-tool restrictions reduce accidental answer access. Managed runtime context is not fully controlled, so this is not a proof of complete isolation or an official leaderboard configuration.
 
 Completed and failed attempts are distinct evidence. The first model batch produced partial dialogue and infrastructure errors; a separate diagnostic returned HTTP 429. The runner now stops after a transport failure and preserves the partial attempt. Current and subsequent model-run receipts are linked in [EXPERIMENT_STATUS.md](docs/EXPERIMENT_STATUS.md).
+
+The later four-task guard-v2 run completed 41 Codex calls: all four target DB comparisons passed and native rewards were 1/1/0/1. Exchange failed the literal communication requirement despite correct state, and separate trace inspection noted an omitted all-items policy reminder. The model reviewer passed all four without flagging that reminder. See the [run analysis](results/codex_20261020T185123068419Z/ANALYSIS.md); these are separate measurements, not four fully compliant successes.
+
+## Adapter hardening
+
+The current adapter recognizes imperative confirmation requests, rejects reserved customer stop markers, permits final stops after confirmation receipts, and attributes malformed or schema-invalid decisions to the responsible participant. Transport classification checks stderr as well as stdout for rate limits. All 33 regression tests pass. The [engineering review](docs/ENGINEERING_REVIEW.md) retains the original Codex static-review findings and explains their fixes.
 
 ## Semantic review
 

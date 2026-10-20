@@ -95,16 +95,18 @@ def main():
             "",
             f"## {run['directory']}",
             "",
-            "| Task | Native reward | DB match | Termination | Possible early customer stop |",
-            "|---|---:|---|---|---|",
+            "| Task | Native reward | DB match | Communication | Termination | Possible early customer stop |",
+            "|---|---:|---|---:|---|---|",
         ]
         for row in run["rows"]:
             lines.append(
-                f"| {row['task_id']} | {row['native_reward']} | {row['db_match']} | {row['termination']} | {row['possible_premature_customer_stop']} |"
+                f"| {row['task_id']} | {row['native_reward']} | {row['db_match']} | {row['reward_breakdown'].get('COMMUNICATE', 'n/a')} | {row['termination']} | {row['possible_premature_customer_stop']} |"
             )
     lines += [
         "",
         "The early-stop flag is a narrow diagnostic: the customer stopped immediately after an assistant message containing confirmation/proceed wording. This includes imperative requests without a question mark. Inspect the actual customer text and provider response before attributing cause. It is not a general simulator-fidelity classifier.",
+        "",
+        "DB and communication are shown separately: a zero native reward can arise from either selected component. A missing required substring is not by itself proof that a semantically correct completion statement was false. Inspect the actual statement before attributing an agent reasoning failure.",
         "",
         "Missing native reward is shown as null/None for unscored infrastructure failures. Benchmark counting conventions may assign failed trials zero, but that convention does not turn infrastructure outages into evidence of reasoning failure. Elapsed run time includes CLI startup, network, model time and intentional pacing; it is not raw model-inference latency.",
         "",

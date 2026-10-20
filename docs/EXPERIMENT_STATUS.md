@@ -68,3 +68,27 @@ Evidence: [review report](../results/review_20261020T175350498796Z/REPORT.md), [
 Six declared reviews completed using Codex `gpt-5.6-luna`: one reference, three policy controls, the original cancellation pilot, and the changed-protocol cancellation rerun. Control labels and native rewards were withheld from reviewer prompts. All four selected control verdicts agreed with their intended labels, with valid evidence indexes. The other seven replay controls were not model-reviewed in this run.
 
 Both cancellation model traces received an agent-policy `pass`. The reviewer also called both customer traces `consistent`, missing the known premature-stop defect in the original pilot. Its raw judgment remains unchanged; the linked limitation annotation explains the conflicting trace evidence. This is why 4/4 designed-control agreement is not full judge validation or independent certification.
+
+## Guard-v2 engineering increment
+
+The next adapter version identifies itself as `confirmation_guard_v2`. It recognizes narrow English imperative authorization requests, rejects customer text containing the native reserved stop marker, and avoids interpreting a completed-action confirmation receipt as a new authorization request. Participant schema errors and malformed argument JSON receive participant error termination reasons. Rate-limit classification now checks both process output streams.
+
+All 33 offline tests passed before the next declared model run. Regression cases reproduce the relevant old failures. Three static Codex review findings were addressed; their original verdicts remain retained. See [engineering review](ENGINEERING_REVIEW.md).
+
+The next run declares all four tasks, one trial each, the same `gpt-5.6-luna` model and low effort, a 64-call budget, and 20-second pacing. Its manifest also hashes the synthetic database. This is a scoped execution check rather than an estimate of general reliability. Outcomes are recorded only after their receipts are available.
+
+## Completed four-task guard-v2 run
+
+Evidence: [native report](../results/codex_20261020T185123068419Z/REPORT.md), [raw records](../results/codex_20261020T185123068419Z/results.json), [trace analysis](../results/codex_20261020T185123068419Z/ANALYSIS.md).
+
+All four declared trials completed with `user_stop`; 41 model calls completed. All four target database comparisons passed. Native rewards were 1 for cancellation, 1 for delivered-order refusal, 0 for exchange, and 1 for partial return. The exchange action check also passed; its zero comes from COMMUNICATE.
+
+The exchange completion says “Your exchange request is confirmed,” while our authored task requires the substring `exchange requested`. This demonstrates an overly literal authored communication criterion. Its native zero remains unchanged. Separately, the exchange proposal lacks the explicit reminder to confirm that all desired exchange items are included, which requires policy review despite correct state.
+
+The scripted exchange reference and wrong-color control were clarified together to include that policy reminder, and all eleven replay outcomes were reproduced again. This did not alter the real run's task criteria, policy, database, or actor prompt. Each versioned experiment remains separate in the [comparison](../results/EXPERIMENT_COMPARISON.md); there are thirteen task attempts across five declared runs, including the original four infrastructure failures.
+
+## Separate review of the four-task run
+
+Evidence: [review report](../results/review_20261020T190556705814Z/REPORT.md), [raw records](../results/review_20261020T190556705814Z/results.json), [trace-inspection limitation](../results/review_20261020T190556705814Z/REVIEW_LIMITATIONS.md).
+
+All four requested reviews completed using Codex `gpt-5.6-luna`. The model returned agent `pass` and customer `consistent` for all four. It did not flag the exchange's omitted explicit all-items reminder, noted by separate inspection against the written policy. Its original judgments remain unchanged. Do not report these four passes as complete policy validation.

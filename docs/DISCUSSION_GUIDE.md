@@ -58,4 +58,10 @@ One unseeded rerun is an example, not proof of a statistically significant impro
 2. Show the three reward-1 policy controls in the replay report. Explain why the selected reward components cannot see those obligations.
 3. Show the original premature-stop transcript beside the changed-protocol cancellation transcript.
 4. Point to the tool response recording `cancelled` and the 40.00 refund. That is the execution receipt behind the completion claim.
-5. State the limits: four authored tasks, one changed-protocol cancellation run, text retail only, custom Codex transport, no general reliability estimate.
+5. State the limits: four authored tasks, one trial per task in the current declared suite, text retail only, custom Codex transport, no general reliability estimate.
+
+## Current four-task suite
+
+The later guard-v2 run completed all four tasks under one declared configuration, with 41 Codex calls. All four target database comparisons passed; native rewards were 1, 1, 0, 1. Exchange missed the literal phrase `exchange requested` while reporting that the exchange request was confirmed. Its state update and action match passed, but its proposal also omitted the explicit all-items reminder required by policy.
+
+The separate model reviewer passed all four traces without flagging that omission. Explain these as separate measurements and limitations, not as four fully compliant successes. See the [current analysis](../results/codex_20261020T185123068419Z/ANALYSIS.md). The earlier one-task rerun remains a separate experiment.

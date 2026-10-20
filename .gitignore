@@ -10,4 +10,5 @@ dist/
 .runs/
 .pytest_cache/
 docs/KAILASH_DISCUSSION.md
+docs/KAILASH_MESSAGE.md
 UPGRADE_PLAN.md

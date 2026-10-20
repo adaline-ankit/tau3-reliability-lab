@@ -143,7 +143,7 @@
       },
       {
         "role": "assistant",
-        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?"
+        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. This exchange can be requested only once for this order. Please confirm these are all the items you want to exchange. Do you confirm?"
       },
       {
         "role": "user",
@@ -470,7 +470,7 @@
       },
       {
         "role": "assistant",
-        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?"
+        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. This exchange can be requested only once for this order. Please confirm these are all the items you want to exchange. Do you confirm?"
       },
       {
         "role": "user",

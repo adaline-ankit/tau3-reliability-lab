@@ -4,7 +4,7 @@ Audit agent outcomes, policy obligations, and execution evidence separately.
 
 An independent, AI-assisted work sample built on Sierra's public τ³-bench code. Four original retail tasks use a synthetic database. Native tools, orchestration, and evaluation remain upstream. Codex-only participants provide a model transport through saved ChatGPT login; no separately billed API key is needed.
 
-**Start here:** [walkthrough](docs/WALKTHROUGH.md) · [sample report](SAMPLE_REPORT.md) · [executed status](docs/EXPERIMENT_STATUS.md) · [discussion guide](docs/DISCUSSION_GUIDE.md)
+**Start here:** [what this demonstrates](docs/ACHIEVEMENTS.md) · [walkthrough](docs/WALKTHROUGH.md) · [executed status](docs/EXPERIMENT_STATUS.md) · [discussion guide](docs/DISCUSSION_GUIDE.md)
 
 ## The useful result
 
@@ -13,6 +13,8 @@ Three crafted policy violations can receive native outcome reward 1: cancellatio
 This is a finding about these constructed tasks and this reward configuration. It is not a claim that the complete benchmark is broken or that real agents fail at that frequency.
 
 Actual Codex runs also exposed a customer-simulator defect: it ended the conversation while granting consent. A separately recorded cancellation rerun with a clarified stop instruction completed the real tool action and received native reward 1. Earlier failures remain visible. [Read all attempts and their limits](docs/EXPERIMENT_STATUS.md).
+
+The latest declared four-task run completed 41 Codex calls: **4/4 target database matches, 3/4 native rewards of 1**. The exchange zero came from our literal communication requirement despite the correct state update. Its separate policy concern is also documented. This is one trial per authored task. [Inspect the run and analysis](results/codex_20261020T185123068419Z/ANALYSIS.md).
 
 | Evidence layer | What it establishes | Supplied artifact |
 |---|---|---|
@@ -63,6 +65,8 @@ The native text orchestrator manages a `CodexAgent`, a separate `CodexCustomer`,
 The adapter uses JSON-schema-constrained final responses. The harness executes the returned tool decisions. Native Codex tool execution is disabled in configuration and emitted native-tool events are rejected. Temporary working directories contain no task files. The adapter does not expose sampling temperature or seed; it is a custom transport, so runs are not directly comparable to an official leaderboard configuration.
 
 Every attempted trial is saved. A transport failure stops the batch; it does not trigger an automatic whole-trial retry. A later rerun produces a separate evidence directory. Infrastructure failures must not be presented as evidence of a model's reasoning failure.
+
+The current adapter rejects reserved customer stop markers and detects narrow English confirmation requests, including imperative forms. Invalid participant schemas and nested argument JSON are attributed to the participant rather than infrastructure. Reports show DB, communication, and termination separately, with unscored results marked unavailable. [Engineering review](docs/ENGINEERING_REVIEW.md) records the reproduced bugs, fixes, and remaining limits.
 
 ## Review traces separately
 

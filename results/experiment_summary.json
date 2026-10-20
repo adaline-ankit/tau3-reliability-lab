@@ -152,5 +152,71 @@
         "tool_errors": 0
       }
     ]
+  },
+  {
+    "directory": "codex_20261020T185123068419Z",
+    "requested_model": "gpt-5.6-luna",
+    "customer_protocol": "confirmation_guard_v2",
+    "planned_trials": 4,
+    "attempted_trials": 4,
+    "model_calls": 41,
+    "rows": [
+      {
+        "task_id": "sample_01_cancel_pending",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 1.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "category": "native_outcome_success",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_02_refuse_delivered",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 1.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "category": "native_outcome_success",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_03_exchange_variant",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 0.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 0.0
+        },
+        "category": "native_outcome_not_met",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_04_partial_return",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 1.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "category": "native_outcome_success",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      }
+    ]
   }
 ]

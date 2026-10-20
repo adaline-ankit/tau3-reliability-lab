@@ -11,6 +11,9 @@ def event_stream(*items):
 
 
 class CodexBackendTests(unittest.TestCase):
+    def test_rate_limit_on_stderr_is_classified(self):
+        self.assertEqual(failure_kind("", "HTTP 429 Too Many Requests"), "rate_limited")
+
     def test_rate_limit_is_classified_without_leaking_provider_details(self):
         stream = event_stream(
             {

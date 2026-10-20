@@ -44,10 +44,11 @@ class CodexTransportError(ValueError):
         super().__init__(f"Codex transport {kind}; private diagnostic retained")
 
 
-def failure_kind(stdout):
+def failure_kind(stdout, stderr=""):
+    diagnostic = stdout + "\n" + stderr
     return (
         "rate_limited"
-        if "429" in stdout or "Too Many Requests" in stdout
+        if "429" in diagnostic or "Too Many Requests" in diagnostic
         else "process_failed"
     )
 
@@ -237,7 +238,7 @@ class CodexClient:
                     (private / (stem + ".jsonl")).write_text(result.stdout)
                     (private / (stem + ".stderr.txt")).write_text(result.stderr)
                     record["private_diagnostic"] = ".runs/transport/" + stem
-                    record["failure_kind"] = failure_kind(result.stdout)
+                    record["failure_kind"] = failure_kind(result.stdout, result.stderr)
                     raise CodexTransportError(record["failure_kind"])
                 answer, usage = parse_codex_output(
                     result.stdout, answer_path.read_text()

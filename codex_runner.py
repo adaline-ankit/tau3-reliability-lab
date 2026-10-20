@@ -7,6 +7,8 @@ import re
 import sys
 from datetime import datetime, timezone
 
+from jsonschema import ValidationError
+
 from codex_backend import AGENT_SCHEMA, USER_SCHEMA, CodexClient, participant_prompt
 from sample import DOMAIN, ROOT, UPSTREAM_COMMIT, get_environment, load_tasks
 from tau2.agent.base_agent import HalfDuplexAgent
@@ -93,7 +95,10 @@ class CodexAgent(HalfDuplexAgent):
             self.schemas,
             [compact_message(m) for m in state],
         )
-        answer = self.client.complete(prompt, AGENT_SCHEMA, "agent")
+        try:
+            answer = self.client.complete(prompt, AGENT_SCHEMA, "agent")
+        except ValidationError as exc:
+            raise AgentProtocolError("Agent output does not match its schema") from exc
         try:
             arguments = json.loads(answer["arguments_json"])
         except (json.JSONDecodeError, TypeError) as exc:
@@ -145,13 +150,21 @@ class CodexCustomer(HalfDuplexUser):
                 "Customer must receive only customer-visible assistant text"
             )
         state.append(message)
-        answer = self.client.complete(
-            participant_prompt(
-                "customer", self.instructions, [], [compact_message(m) for m in state]
-            ),
-            USER_SCHEMA,
-            "customer",
-        )
+        try:
+            answer = self.client.complete(
+                participant_prompt(
+                    "customer",
+                    self.instructions,
+                    [],
+                    [compact_message(m) for m in state],
+                ),
+                USER_SCHEMA,
+                "customer",
+            )
+        except ValidationError as exc:
+            raise CustomerProtocolError(
+                "Customer output does not match its schema"
+            ) from exc
         if not any(isinstance(m, UserMessage) for m in state) and answer["done"]:
             raise CustomerProtocolError("Customer tried to end before making a request")
         if not answer["text"].strip() and not answer["done"]:

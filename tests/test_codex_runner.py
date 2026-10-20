@@ -3,6 +3,8 @@
 import json
 import unittest
 
+from jsonschema import ValidationError
+
 from codex_runner import validate_customer_stop, run_episode
 from sample import load_cases, load_tasks
 
@@ -95,6 +97,24 @@ class CodexRunnerTests(unittest.TestCase):
                 client.bad_value = bad_value
                 simulation = run_episode(load_tasks()[0], client)
                 self.assertEqual(simulation.termination_reason.value, "agent_error")
+                self.assertIsNone(simulation.reward_info)
+
+    def test_schema_invalid_output_is_attributed_to_its_participant(self):
+        class InvalidShapeClient(ScriptedClient):
+            invalid_role = "agent"
+
+            def complete(self, prompt, schema, role):
+                if role == self.invalid_role:
+                    raise ValidationError("Output does not match participant schema")
+                return super().complete(prompt, schema, role)
+
+        for role in ["agent", "customer"]:
+            with self.subTest(role=role):
+                client = InvalidShapeClient()
+                client.invalid_role = role
+                simulation = run_episode(load_tasks()[0], client)
+                expected = "agent_error" if role == "agent" else "user_error"
+                self.assertEqual(simulation.termination_reason.value, expected)
                 self.assertIsNone(simulation.reward_info)
 
     def test_native_orchestrator_reaches_target_state(self):

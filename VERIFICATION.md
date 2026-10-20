@@ -29,3 +29,11 @@ The sharing archive uses an explicit public-file inventory. `python3 package_sam
 Codex CLI 0.145.0 uses saved ChatGPT login. Failed attempts, paced baseline runs, and changed-protocol reruns have separate evidence directories. Native reward is retained independently of policy review. Reported token counters come from completion events; per-call dollar cost, model seed, and temperature are unavailable. Managed Codex instructions are not fully controlled by this adapter.
 
 All real-run results, including failures and simulator defects, are linked from [EXPERIMENT_STATUS.md](docs/EXPERIMENT_STATUS.md). A successful infrastructure check is not a completed task, and a completed task is not a general reliability estimate.
+
+## Compact client packet
+
+The client packet highlights cancellation, refusal, and exchange, with two selected scripted controls. Its generator copies the original simulation records and native reward objects without alteration. It retains the complete run manifest, source hashes, original task count, omitted task ID, and links to the four-task source. It does not make model calls.
+
+`python3 package_client_sample.py --check` verifies the committed extracts against their source records and checks that current tasks, database, and policy match the recorded model-run hashes. Run this check before `offline-demo`, which regenerates replay timestamps. After rerunning the demo, `python3 package_client_sample.py` refreshes the extract and archive from the new replay receipt. The selected control actions and outcomes remain unchanged.
+
+The packaging increment was verified with all 33 existing tests, all eleven scripted controls, source-identity verification, lint, formatting, public-inventory checks, and direct inspection of the resulting ZIP. Native model-run records were not rerun or changed. The updated CI checks extract freshness before replay regeneration.

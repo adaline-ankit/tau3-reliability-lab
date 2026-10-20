@@ -50,7 +50,7 @@ Show `cancel_without_confirmation` in [replay report](../results/REPLAY_REPORT.m
 
 “The first paced cancellation run stopped too early: the simulated customer approved the action and ended the conversation in the same turn. I preserved the failed trace, clarified the stop instruction, added a narrow guard and regression tests, then recorded a fresh run. That run obtained consent, called the real cancellation tool, recorded the original-card refund, and received native reward 1.”
 
-One unseeded rerun is an example, not proof of a statistically significant improvement. The baseline delivered-order refusal also passed; exchange and partial return stopped prematurely and were not rerun under the changed protocol. See [all attempts](../results/EXPERIMENT_COMPARISON.md).
+One unseeded rerun is an example, not proof of a statistically significant improvement. The baseline delivered-order refusal also passed; baseline exchange and partial return stopped prematurely. The later four-task guard-v2 suite below includes fresh attempts for all four scenarios. See [all attempts](../results/EXPERIMENT_COMPARISON.md).
 
 ## A two-minute demonstration
 

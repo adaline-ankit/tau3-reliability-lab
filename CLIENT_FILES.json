@@ -1,0 +1,14 @@
+[
+  "CLIENT_FILES.json",
+  "CLIENT_SAMPLE.md",
+  "LICENSE",
+  "THIRD_PARTY_LICENSE.txt",
+  "client_sample/model_results.json",
+  "client_sample/replay_controls.json",
+  "client_sample/tasks.json",
+  "data/policy.md",
+  "data/retail_db.json",
+  "results/codex_20261020T185123068419Z/sample_01_cancel_pending_trial_0.md",
+  "results/codex_20261020T185123068419Z/sample_02_refuse_delivered_trial_0.md",
+  "results/codex_20261020T185123068419Z/sample_03_exchange_variant_trial_0.md"
+]

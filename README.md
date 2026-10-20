@@ -6,6 +6,8 @@ An independent, AI-assisted work sample built on Sierra's public τ³-bench code
 
 **Start here:** [what this demonstrates](docs/ACHIEVEMENTS.md) · [walkthrough](docs/WALKTHROUGH.md) · [executed status](docs/EXPERIMENT_STATUS.md) · [discussion guide](docs/DISCUSSION_GUIDE.md)
 
+**Reviewing work samples?** Start with [three tasks, traces, and findings](CLIENT_SAMPLE.md). Generate the compact inspection ZIP with `python3 package_client_sample.py`; it includes selected original evidence and makes no model calls. The complete run and earlier attempts remain in this repository.
+
 ## The useful result
 
 Three crafted policy violations can receive native outcome reward 1: cancellation without confirmation, cancellation without identity lookup, and an invalid cancellation attempt that leaves the database unchanged. We reproduce those cases and keep policy evidence separate from native reward.

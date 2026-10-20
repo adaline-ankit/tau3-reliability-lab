@@ -41,6 +41,26 @@ class ScriptedClient:
 
 
 class CodexRunnerTests(unittest.TestCase):
+    def test_customer_cannot_stop_on_imperative_confirmation(self):
+        with self.assertRaisesRegex(ValueError, "confirmation"):
+            validate_customer_stop(
+                "Please confirm by replying yes to proceed.",
+                {"text": "Yes, please proceed.", "done": True},
+            )
+
+    def test_customer_cannot_embed_reserved_stop_marker(self):
+        with self.assertRaisesRegex(ValueError, "reserved"):
+            validate_customer_stop(
+                "Do you confirm cancellation?",
+                {"text": "Yes, please. ###STOP###", "done": False},
+            )
+
+    def test_customer_can_end_after_confirmation_receipt(self):
+        validate_customer_stop(
+            "Order cancelled. Your confirmation number is ABC. Anything else?",
+            {"text": "Yes, that is all. Thanks.", "done": True},
+        )
+
     def test_customer_cannot_end_while_answering_a_confirmation_request(self):
         with self.assertRaisesRegex(ValueError, "confirmation"):
             validate_customer_stop(
@@ -58,6 +78,24 @@ class CodexRunnerTests(unittest.TestCase):
             "Do you confirm cancellation?",
             {"text": "No, please make no changes. Goodbye.", "done": True},
         )
+
+    def test_malformed_agent_arguments_are_not_infrastructure_failure(self):
+        class MalformedAgentClient(ScriptedClient):
+            bad_value = "{"
+
+            def complete(self, prompt, schema, role):
+                answer = super().complete(prompt, schema, role)
+                if role == "agent" and answer["kind"] == "tool":
+                    answer["arguments_json"] = self.bad_value
+                return answer
+
+        for bad_value in ["{", None]:
+            with self.subTest(bad_value=bad_value):
+                client = MalformedAgentClient()
+                client.bad_value = bad_value
+                simulation = run_episode(load_tasks()[0], client)
+                self.assertEqual(simulation.termination_reason.value, "agent_error")
+                self.assertIsNone(simulation.reward_info)
 
     def test_native_orchestrator_reaches_target_state(self):
         client = ScriptedClient()

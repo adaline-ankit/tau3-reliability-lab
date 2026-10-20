@@ -32,8 +32,13 @@ class AgentProtocolError(ValueError):
 
 def validate_customer_stop(previous_agent_text, answer):
     """Narrow English confirmation guard; rejects a stop, never fabricates consent."""
-    asks_confirmation = "?" in previous_agent_text and re.search(
-        r"\b(confirm|confirmation|approve|approval|authorize|proceed)\b",
+    if STOP in answer["text"]:
+        raise CustomerProtocolError("Customer text contains a reserved stop marker")
+    asks_confirmation = re.search(
+        r"\b(?:please|kindly)\s+(?:confirm|approve|authorize)\b"
+        r"|\b(?:do|can|could|will|would)\s+you\s+(?:please\s+)?(?:confirm|approve|authorize)\b"
+        r"|\breply\b[^\n]*\byes\b"
+        r"|\b(?:do|would)\s+you\b[^\n?]*\bproceed\b",
         previous_agent_text,
         re.IGNORECASE,
     )
@@ -89,12 +94,15 @@ class CodexAgent(HalfDuplexAgent):
             [compact_message(m) for m in state],
         )
         answer = self.client.complete(prompt, AGENT_SCHEMA, "agent")
+        try:
+            arguments = json.loads(answer["arguments_json"])
+        except (json.JSONDecodeError, TypeError) as exc:
+            raise AgentProtocolError("Decision arguments are not valid JSON") from exc
         if answer["kind"] == "tool":
             if answer["text"] or answer["tool_name"] not in self.names:
                 raise AgentProtocolError(
                     "Invalid tool decision: mixed content or unknown tool"
                 )
-            arguments = json.loads(answer["arguments_json"])
             if not isinstance(arguments, dict):
                 raise AgentProtocolError("Tool arguments must be an object")
             result = AssistantMessage(
@@ -109,11 +117,7 @@ class CodexAgent(HalfDuplexAgent):
                 ],
             )
         else:
-            if (
-                not answer["text"].strip()
-                or answer["tool_name"]
-                or json.loads(answer["arguments_json"]) != {}
-            ):
+            if not answer["text"].strip() or answer["tool_name"] or arguments != {}:
                 raise AgentProtocolError("Invalid customer-facing message")
             result = AssistantMessage.text(answer["text"])
         state.append(result)
@@ -226,13 +230,25 @@ def write_results(output, simulations, client, manifest):
         "",
         f"Requested model: `{client.model or 'CLI default (not independently resolved)'}`. CLI: `{client.version}`. Effort: `{client.effort}`.",
         "",
-        "| Task | Trial | Native reward | Termination | Seconds |",
-        "|---|---:|---:|---|---:|",
+        "| Task | Trial | Native reward | DB match | Communication | Termination | Seconds |",
+        "|---|---:|---:|---|---:|---|---:|",
     ]
     for simulation in simulations:
-        reward = simulation.reward_info.reward if simulation.reward_info else 0.0
+        info = (
+            simulation.reward_info.model_dump(mode="json")
+            if simulation.reward_info
+            else {}
+        )
+        reward = info.get("reward", "n/a")
+        db_match = (info.get("db_check") or {}).get("db_match", "n/a")
+        communication = info.get("reward_breakdown", {}).get("COMMUNICATE", "n/a")
+        duration = (
+            "n/a"
+            if (simulation.info or {}).get("duration_unavailable")
+            else f"{simulation.duration:.2f}"
+        )
         lines.append(
-            f"| {simulation.task_id} | {simulation.trial} | {reward:.0f} | {simulation.termination_reason.value} | {simulation.duration:.2f} |"
+            f"| {simulation.task_id} | {simulation.trial} | {reward} | {db_match} | {communication} | {simulation.termination_reason.value} | {duration} |"
         )
         trace = [
             f"# {simulation.id}",
@@ -304,7 +320,7 @@ def main():
         "requested_model": args.model,
         "cli_version": client.version,
         "effort": client.effort,
-        "customer_protocol": "confirmation_guard_v1",
+        "customer_protocol": "confirmation_guard_v2",
         "backend_source_sha256": hashlib.sha256(
             (ROOT / "codex_backend.py").read_bytes()
         ).hexdigest(),
@@ -318,6 +334,9 @@ def main():
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "task_sha256": hashlib.sha256(
             (ROOT / "data/tasks.json").read_bytes()
+        ).hexdigest(),
+        "database_sha256": hashlib.sha256(
+            (ROOT / "data/retail_db.json").read_bytes()
         ).hexdigest(),
         "policy_sha256": hashlib.sha256(
             (ROOT / "data/policy.md").read_bytes()
@@ -343,7 +362,7 @@ def main():
             write_results(output, simulations, client, manifest)
             result = simulations[-1]
             print(
-                f"Finished {task.id}: reward={result.reward_info.reward if result.reward_info else 0}, termination={result.termination_reason.value}",
+                f"Finished {task.id}: reward={result.reward_info.reward if result.reward_info else 'unscored'}, termination={result.termination_reason.value}",
                 file=sys.stderr,
                 flush=True,
             )

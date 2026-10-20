@@ -1,0 +1,11 @@
+.upstream/
+__pycache__/
+*.pyc
+.env
+.env.*
+results/live_*/
+dist/
+.DS_Store
+.ruff_cache/
+.runs/
+.pytest_cache/

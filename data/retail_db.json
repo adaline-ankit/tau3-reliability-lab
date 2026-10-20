@@ -1,0 +1,338 @@
+{
+  "products": {
+    "9100000001": {
+      "name": "Trail Hoodie",
+      "product_id": "9100000001",
+      "variants": {
+        "8100000001": {
+          "item_id": "8100000001",
+          "options": {
+            "color": "blue",
+            "size": "M"
+          },
+          "available": true,
+          "price": 40.0
+        },
+        "8100000002": {
+          "item_id": "8100000002",
+          "options": {
+            "color": "blue",
+            "size": "L"
+          },
+          "available": true,
+          "price": 45.0
+        },
+        "8100000003": {
+          "item_id": "8100000003",
+          "options": {
+            "color": "red",
+            "size": "L"
+          },
+          "available": true,
+          "price": 50.0
+        }
+      }
+    },
+    "9100000002": {
+      "name": "Steel Bottle",
+      "product_id": "9100000002",
+      "variants": {
+        "8200000001": {
+          "item_id": "8200000001",
+          "options": {
+            "color": "silver",
+            "capacity": "750ml"
+          },
+          "available": true,
+          "price": 20.0
+        }
+      }
+    },
+    "9100000003": {
+      "name": "Ceramic Mug",
+      "product_id": "9100000003",
+      "variants": {
+        "8300000001": {
+          "item_id": "8300000001",
+          "options": {
+            "color": "white"
+          },
+          "available": true,
+          "price": 12.0
+        }
+      }
+    }
+  },
+  "users": {
+    "demo_asha_1001": {
+      "user_id": "demo_asha_1001",
+      "name": {
+        "first_name": "Asha",
+        "last_name": "Example"
+      },
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "email": "asha@example.test",
+      "payment_methods": {
+        "credit_card_demo_1001": {
+          "source": "credit_card",
+          "id": "credit_card_demo_1001",
+          "brand": "visa",
+          "last_four": "0000"
+        },
+        "gift_card_demo_1001": {
+          "source": "gift_card",
+          "id": "gift_card_demo_1001",
+          "balance": 30.0
+        }
+      },
+      "orders": [
+        "#W8100001",
+        "#W8100002",
+        "#W8100003",
+        "#W8100004"
+      ]
+    },
+    "demo_noah_1002": {
+      "user_id": "demo_noah_1002",
+      "name": {
+        "first_name": "Noah",
+        "last_name": "Example"
+      },
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "email": "noah@example.test",
+      "payment_methods": {
+        "credit_card_demo_1001": {
+          "source": "credit_card",
+          "id": "credit_card_demo_1001",
+          "brand": "visa",
+          "last_four": "0000"
+        },
+        "gift_card_demo_1001": {
+          "source": "gift_card",
+          "id": "gift_card_demo_1001",
+          "balance": 30.0
+        }
+      },
+      "orders": [
+        "#W8200001"
+      ]
+    }
+  },
+  "orders": {
+    "#W8100001": {
+      "order_id": "#W8100001",
+      "user_id": "demo_asha_1001",
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "items": [
+        {
+          "name": "Trail Hoodie",
+          "product_id": "9100000001",
+          "item_id": "8100000001",
+          "options": {
+            "color": "blue",
+            "size": "M"
+          },
+          "price": 40.0
+        }
+      ],
+      "status": "pending",
+      "fulfillments": [],
+      "payment_history": [
+        {
+          "transaction_type": "payment",
+          "amount": 40.0,
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      ]
+    },
+    "#W8100002": {
+      "order_id": "#W8100002",
+      "user_id": "demo_asha_1001",
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "items": [
+        {
+          "name": "Trail Hoodie",
+          "product_id": "9100000001",
+          "item_id": "8100000001",
+          "options": {
+            "color": "blue",
+            "size": "M"
+          },
+          "price": 40.0
+        }
+      ],
+      "status": "delivered",
+      "fulfillments": [
+        {
+          "tracking_id": [
+            "DEMO_TRACKING_01"
+          ],
+          "item_ids": [
+            "8100000001"
+          ]
+        }
+      ],
+      "payment_history": [
+        {
+          "transaction_type": "payment",
+          "amount": 40.0,
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      ]
+    },
+    "#W8100003": {
+      "order_id": "#W8100003",
+      "user_id": "demo_asha_1001",
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "items": [
+        {
+          "name": "Trail Hoodie",
+          "product_id": "9100000001",
+          "item_id": "8100000001",
+          "options": {
+            "color": "blue",
+            "size": "M"
+          },
+          "price": 40.0
+        }
+      ],
+      "status": "delivered",
+      "fulfillments": [
+        {
+          "tracking_id": [
+            "DEMO_TRACKING_01"
+          ],
+          "item_ids": [
+            "8100000001"
+          ]
+        }
+      ],
+      "payment_history": [
+        {
+          "transaction_type": "payment",
+          "amount": 40.0,
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      ]
+    },
+    "#W8100004": {
+      "order_id": "#W8100004",
+      "user_id": "demo_asha_1001",
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "items": [
+        {
+          "name": "Steel Bottle",
+          "product_id": "9100000002",
+          "item_id": "8200000001",
+          "options": {
+            "color": "silver",
+            "capacity": "750ml"
+          },
+          "price": 20.0
+        },
+        {
+          "name": "Ceramic Mug",
+          "product_id": "9100000003",
+          "item_id": "8300000001",
+          "options": {
+            "color": "white"
+          },
+          "price": 12.0
+        }
+      ],
+      "status": "delivered",
+      "fulfillments": [
+        {
+          "tracking_id": [
+            "DEMO_TRACKING_01"
+          ],
+          "item_ids": [
+            "8200000001",
+            "8300000001"
+          ]
+        }
+      ],
+      "payment_history": [
+        {
+          "transaction_type": "payment",
+          "amount": 32.0,
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      ]
+    },
+    "#W8200001": {
+      "order_id": "#W8200001",
+      "user_id": "demo_noah_1002",
+      "address": {
+        "address1": "10 Example Avenue",
+        "address2": "Unit 1",
+        "city": "Example City",
+        "country": "USA",
+        "state": "CA",
+        "zip": "90001"
+      },
+      "items": [
+        {
+          "name": "Ceramic Mug",
+          "product_id": "9100000003",
+          "item_id": "8300000001",
+          "options": {
+            "color": "white"
+          },
+          "price": 12.0
+        }
+      ],
+      "status": "pending",
+      "fulfillments": [],
+      "payment_history": [
+        {
+          "transaction_type": "payment",
+          "amount": 12.0,
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      ]
+    }
+  }
+}

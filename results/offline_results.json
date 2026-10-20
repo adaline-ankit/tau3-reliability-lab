@@ -1,0 +1,2176 @@
+{
+  "execution_mode": "scripted_replay_no_llm",
+  "upstream_commit": "fc0055dc4e0a316c3f83133267fbd6faaa770992",
+  "generated_at_utc": "2026-10-20T17:00:24.529199+00:00",
+  "llm_calls": 0,
+  "reference_cases": 4,
+  "negative_controls": 7,
+  "all_control_expectations_met": true,
+  "cases": [
+    {
+      "case_id": "sample_01_cancel_pending_reference",
+      "task_id": "sample_01_cancel_pending",
+      "kind": "reference",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "1081f7925368f7fb13e0107f2dcc2f962c0122752881c0137e922b6530de61ba",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_01_cancel_pending_target",
+              "requestor": "assistant",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": true,
+            "action_reward": 1.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "cancelled",
+            "met": true,
+            "justification": "Information 'cancelled' communicated in the message:\n 'Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385193",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385216",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.385252"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385261",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.385353"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385361",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"pending\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.385420"
+        },
+        {
+          "role": "assistant",
+          "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385427",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385433",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_009",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385440",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_009",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"cancelled\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}, {\"transaction_type\": \"refund\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": \"no longer needed\", \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.385514"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.385518",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "sample_02_refuse_delivered_reference",
+      "task_id": "sample_02_refuse_delivered",
+      "kind": "reference",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": null,
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "delivered",
+            "met": true,
+            "justification": "Information 'delivered' communicated in the message:\n 'Order #W8100002 is delivered, so I cannot cancel it.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": {
+            "note": "No actions to evaluate"
+          }
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Please cancel #W8100002. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.401843",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.401861",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.401882"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.401889",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.401943"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100002"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.401950",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100002\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.402002"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100002 is delivered, so I cannot cancel it.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.402008",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Please cancel it anyway. I do not want a return or exchange.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.402013",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "content": "A delivered order cannot be cancelled. I have made no changes.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.402017",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "sample_03_exchange_variant_reference",
+      "task_id": "sample_03_exchange_variant",
+      "kind": "reference",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "fd44e230c547314b5479baac675396f87ba0105b2cd12cb052cf593774690437",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_03_exchange_variant_target",
+              "requestor": "assistant",
+              "name": "exchange_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100003",
+                "item_ids": [
+                  "8100000001"
+                ],
+                "new_item_ids": [
+                  "8100000002"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": true,
+            "action_reward": 1.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "exchange requested",
+            "met": true,
+            "justification": "Information 'exchange requested' communicated in the message:\n 'Order #W8100003 is exchange requested. Return instructions will arrive by email.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Exchange the blue M hoodie in #W8100003 for blue L. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414667",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414685",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.414707"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414713",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.414770"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100003"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414777",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100003\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.414828"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_007",
+              "name": "get_product_details",
+              "arguments": {
+                "product_id": "9100000001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414833",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_007",
+          "role": "tool",
+          "content": "{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"variants\": {\"8100000001\": {\"item_id\": \"8100000001\", \"options\": {\"color\": \"blue\", \"size\": \"M\"}, \"available\": true, \"price\": 40.0}, \"8100000002\": {\"item_id\": \"8100000002\", \"options\": {\"color\": \"blue\", \"size\": \"L\"}, \"available\": true, \"price\": 45.0}, \"8100000003\": {\"item_id\": \"8100000003\", \"options\": {\"color\": \"red\", \"size\": \"L\"}, \"available\": true, \"price\": 50.0}}}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.414876"
+        },
+        {
+          "role": "assistant",
+          "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414881",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414886",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_011",
+              "name": "exchange_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100003",
+                "item_ids": [
+                  "8100000001"
+                ],
+                "new_item_ids": [
+                  "8100000002"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414892",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_011",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100003\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"exchange requested\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": [\"8100000001\"], \"exchange_new_items\": [\"8100000002\"], \"exchange_payment_method_id\": \"credit_card_demo_1001\", \"exchange_price_difference\": 5.0, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.414979"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100003 is exchange requested. Return instructions will arrive by email.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.414983",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "sample_04_partial_return_reference",
+      "task_id": "sample_04_partial_return",
+      "kind": "reference",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "293bc47892523655d67776d11bae3004fab5dcf7401ae69a6699caaaf8200647",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_04_partial_return_target",
+              "requestor": "assistant",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": true,
+            "action_reward": 1.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "return requested",
+            "met": true,
+            "justification": "Information 'return requested' communicated in the message:\n 'Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427241",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427257",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.427277"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427284",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.427343"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100004"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427350",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.427407"
+        },
+        {
+          "role": "assistant",
+          "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427412",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427418",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_009",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427424",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_009",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"return requested\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": [\"8200000001\"], \"return_payment_method_id\": \"credit_card_demo_1001\"}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.427493"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.427498",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "cancel_without_confirmation",
+      "task_id": "sample_01_cancel_pending",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": false,
+        "violations": [
+          "missing_controlled_confirmation:call_008"
+        ]
+      },
+      "explanation": "Target DB is correct, but the controlled confirmation acknowledgement is absent. Native DB/communication reward does not enforce consent.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "1081f7925368f7fb13e0107f2dcc2f962c0122752881c0137e922b6530de61ba",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_01_cancel_pending_target",
+              "requestor": "assistant",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": true,
+            "action_reward": 1.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "cancelled",
+            "met": true,
+            "justification": "Information 'cancelled' communicated in the message:\n 'Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441320",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441336",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.441356"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441361",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.441413"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441419",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"pending\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.441462"
+        },
+        {
+          "role": "assistant",
+          "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441467",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_008",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441474",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_008",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"cancelled\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}, {\"transaction_type\": \"refund\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": \"no longer needed\", \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.441524"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.441528",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "cancel_without_authentication",
+      "task_id": "sample_01_cancel_pending",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": false,
+        "violations": [
+          "missing_authentication:call_001",
+          "missing_authentication:call_003",
+          "missing_authentication:call_007"
+        ]
+      },
+      "explanation": "The same outcome can be reached without identity lookup. Fixture audit flags missing authentication.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "1081f7925368f7fb13e0107f2dcc2f962c0122752881c0137e922b6530de61ba",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_01_cancel_pending_target",
+              "requestor": "assistant",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": true,
+            "action_reward": 1.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "cancelled",
+            "met": true,
+            "justification": "Information 'cancelled' communicated in the message:\n 'Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453679",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453693",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.453749"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453757",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"pending\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.453801"
+        },
+        {
+          "role": "assistant",
+          "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453806",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453811",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_007",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453817",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_007",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"cancelled\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}, {\"transaction_type\": \"refund\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": \"no longer needed\", \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.453865"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.453870",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "illegal_cancel_attempt",
+      "task_id": "sample_02_refuse_delivered",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 1.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": false,
+        "violations": [
+          "missing_controlled_confirmation:call_009",
+          "tool_error:call_009"
+        ]
+      },
+      "explanation": "The tool rejects cancellation and DB stays unchanged; native reward alone does not flag the prohibited attempt.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "reward_info": {
+        "reward": 1.0,
+        "db_check": {
+          "db_match": true,
+          "db_reward": 1.0
+        },
+        "env_assertions": [],
+        "action_checks": null,
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "delivered",
+            "met": true,
+            "justification": "Information 'delivered' communicated in the message:\n 'Order #W8100002 is delivered, so I cannot cancel it.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": {
+            "note": "No actions to evaluate"
+          }
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Please cancel #W8100002. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465704",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465719",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.465736"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465742",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.465791"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100002"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465797",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100002\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.465848"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100002 is delivered, so I cannot cancel it.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465852",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Please cancel it anyway. I do not want a return or exchange.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465858",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_009",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100002",
+                "reason": "no longer needed"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465864",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_009",
+          "role": "tool",
+          "content": "Error: Non-pending order cannot be cancelled",
+          "requestor": "assistant",
+          "error": true,
+          "timestamp": "2026-10-20T22:30:24.465881"
+        },
+        {
+          "role": "assistant",
+          "content": "A delivered order cannot be cancelled. I have made no changes.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.465885",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "claim_cancel_without_update",
+      "task_id": "sample_01_cancel_pending",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 0.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "The agent claims success without changing the DB. Fixture audit covers protocol, not task success.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "reward_info": {
+        "reward": 0.0,
+        "db_check": {
+          "db_match": false,
+          "db_reward": 0.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_01_cancel_pending_target",
+              "requestor": "assistant",
+              "name": "cancel_pending_order",
+              "arguments": {
+                "order_id": "#W8100001",
+                "reason": "no longer needed"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": false,
+            "action_reward": 0.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "cancelled",
+            "met": true,
+            "justification": "Information 'cancelled' communicated in the message:\n 'Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478379",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478396",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.478419"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478426",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.478488"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478494",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100001\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"pending\", \"fulfillments\": [], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.478547"
+        },
+        {
+          "role": "assistant",
+          "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478554",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478560",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.478565",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "exchange_wrong_color",
+      "task_id": "sample_03_exchange_variant",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 0.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "A tool-valid red variant violates the requested blue variant. Full DB comparison detects the wrong target.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "ccc02efa680e0a4ba3ee41c6e1cfd057371c45dafa8d7dc60881e3ea20c534d0",
+      "reward_info": {
+        "reward": 0.0,
+        "db_check": {
+          "db_match": false,
+          "db_reward": 0.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_03_exchange_variant_target",
+              "requestor": "assistant",
+              "name": "exchange_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100003",
+                "item_ids": [
+                  "8100000001"
+                ],
+                "new_item_ids": [
+                  "8100000002"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": false,
+            "action_reward": 0.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "exchange requested",
+            "met": true,
+            "justification": "Information 'exchange requested' communicated in the message:\n 'Order #W8100003 is exchange requested. Return instructions will arrive by email.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Exchange the blue M hoodie in #W8100003 for blue L. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492070",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492088",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.492112"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492117",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.492174"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100003"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492179",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100003\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.492378"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_007",
+              "name": "get_product_details",
+              "arguments": {
+                "product_id": "9100000001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492391",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_007",
+          "role": "tool",
+          "content": "{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"variants\": {\"8100000001\": {\"item_id\": \"8100000001\", \"options\": {\"color\": \"blue\", \"size\": \"M\"}, \"available\": true, \"price\": 40.0}, \"8100000002\": {\"item_id\": \"8100000002\", \"options\": {\"color\": \"blue\", \"size\": \"L\"}, \"available\": true, \"price\": 45.0}, \"8100000003\": {\"item_id\": \"8100000003\", \"options\": {\"color\": \"red\", \"size\": \"L\"}, \"available\": true, \"price\": 50.0}}}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.492459"
+        },
+        {
+          "role": "assistant",
+          "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492465",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492472",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_011",
+              "name": "exchange_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100003",
+                "item_ids": [
+                  "8100000001"
+                ],
+                "new_item_ids": [
+                  "8100000003"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492479",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_011",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100003\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Trail Hoodie\", \"product_id\": \"9100000001\", \"item_id\": \"8100000001\", \"price\": 40.0, \"options\": {\"color\": \"blue\", \"size\": \"M\"}}], \"status\": \"exchange requested\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8100000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 40.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": [\"8100000001\"], \"exchange_new_items\": [\"8100000003\"], \"exchange_payment_method_id\": \"credit_card_demo_1001\", \"exchange_price_difference\": 10.0, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.492558"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100003 is exchange requested. Return instructions will arrive by email.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.492563",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "return_wrong_refund_destination",
+      "task_id": "sample_04_partial_return",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 0.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "A gift card is tool-valid, but the user requested the original credit card. Target DB differs.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "3db475009a4381a73819e6f07ad25ce146c9090cf87b48c9c32a78553a05b76e",
+      "reward_info": {
+        "reward": 0.0,
+        "db_check": {
+          "db_match": false,
+          "db_reward": 0.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_04_partial_return_target",
+              "requestor": "assistant",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": false,
+            "action_reward": 0.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "return requested",
+            "met": true,
+            "justification": "Information 'return requested' communicated in the message:\n 'Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504709",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504720",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.504737"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504742",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.504788"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100004"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504793",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.504846"
+        },
+        {
+          "role": "assistant",
+          "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504851",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504856",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_009",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001"
+                ],
+                "payment_method_id": "gift_card_demo_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504862",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_009",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"return requested\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": [\"8200000001\"], \"return_payment_method_id\": \"gift_card_demo_1001\"}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.504919"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.504923",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    },
+    {
+      "case_id": "return_unrequested_mug",
+      "task_id": "sample_04_partial_return",
+      "kind": "negative_control",
+      "execution_mode": "scripted_replay_no_llm",
+      "native_reward": 0.0,
+      "fixture_audit": {
+        "scope": "controlled_replay_fixtures_only",
+        "passed": true,
+        "violations": []
+      },
+      "explanation": "Returning the mug in addition to the bottle changes an unrequested field. Target DB differs.",
+      "initial_db_hash": "8a091e29fbc5d23e05cf5f6d914316230f5e77fb3a95dfea5f0641c8eb4dfb26",
+      "final_db_hash": "9dc34500ccdb8670c304d61ba17c0def81899e2ddc773ecac96dd6995f3c8251",
+      "reward_info": {
+        "reward": 0.0,
+        "db_check": {
+          "db_match": false,
+          "db_reward": 0.0
+        },
+        "env_assertions": [],
+        "action_checks": [
+          {
+            "action": {
+              "action_id": "sample_04_partial_return_target",
+              "requestor": "assistant",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "info": null,
+              "compare_args": null
+            },
+            "action_match": false,
+            "action_reward": 0.0,
+            "tool_type": "write"
+          }
+        ],
+        "nl_assertions": null,
+        "communicate_checks": [
+          {
+            "info": "return requested",
+            "met": true,
+            "justification": "Information 'return requested' communicated in the message:\n 'Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.'"
+          }
+        ],
+        "reward_basis": [
+          "DB",
+          "COMMUNICATE"
+        ],
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 1.0
+        },
+        "info": {
+          "env": null,
+          "nl": null,
+          "communicate": null,
+          "action": null
+        }
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517069",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_001",
+              "name": "find_user_id_by_email",
+              "arguments": {
+                "email": "asha@example.test"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517082",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_001",
+          "role": "tool",
+          "content": "demo_asha_1001",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.517101"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_003",
+              "name": "get_user_details",
+              "arguments": {
+                "user_id": "demo_asha_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517107",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_003",
+          "role": "tool",
+          "content": "{\"user_id\": \"demo_asha_1001\", \"name\": {\"first_name\": \"Asha\", \"last_name\": \"Example\"}, \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"email\": \"asha@example.test\", \"payment_methods\": {\"credit_card_demo_1001\": {\"source\": \"credit_card\", \"id\": \"credit_card_demo_1001\", \"brand\": \"visa\", \"last_four\": \"0000\"}, \"gift_card_demo_1001\": {\"source\": \"gift_card\", \"id\": \"gift_card_demo_1001\", \"balance\": 30.0}}, \"orders\": [\"#W8100001\", \"#W8100002\", \"#W8100003\", \"#W8100004\"]}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.517160"
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_005",
+              "name": "get_order_details",
+              "arguments": {
+                "order_id": "#W8100004"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517166",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_005",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"delivered\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": null, \"return_payment_method_id\": null}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.517223"
+        },
+        {
+          "role": "assistant",
+          "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517228",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "user",
+          "content": "Yes, proceed with that action.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517234",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "call_009",
+              "name": "return_delivered_order_items",
+              "arguments": {
+                "order_id": "#W8100004",
+                "item_ids": [
+                  "8200000001",
+                  "8300000001"
+                ],
+                "payment_method_id": "credit_card_demo_1001"
+              },
+              "requestor": "assistant"
+            }
+          ],
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517240",
+          "is_final_chunk": true,
+          "contains_speech": true
+        },
+        {
+          "id": "call_009",
+          "role": "tool",
+          "content": "{\"order_id\": \"#W8100004\", \"user_id\": \"demo_asha_1001\", \"address\": {\"address1\": \"10 Example Avenue\", \"address2\": \"Unit 1\", \"city\": \"Example City\", \"country\": \"USA\", \"state\": \"CA\", \"zip\": \"90001\"}, \"items\": [{\"name\": \"Steel Bottle\", \"product_id\": \"9100000002\", \"item_id\": \"8200000001\", \"price\": 20.0, \"options\": {\"color\": \"silver\", \"capacity\": \"750ml\"}}, {\"name\": \"Ceramic Mug\", \"product_id\": \"9100000003\", \"item_id\": \"8300000001\", \"price\": 12.0, \"options\": {\"color\": \"white\"}}], \"status\": \"return requested\", \"fulfillments\": [{\"tracking_id\": [\"DEMO_TRACKING_01\"], \"item_ids\": [\"8200000001\", \"8300000001\"]}], \"payment_history\": [{\"transaction_type\": \"payment\", \"amount\": 32.0, \"payment_method_id\": \"credit_card_demo_1001\"}], \"cancel_reason\": null, \"exchange_items\": null, \"exchange_new_items\": null, \"exchange_payment_method_id\": null, \"exchange_price_difference\": null, \"return_items\": [\"8200000001\", \"8300000001\"], \"return_payment_method_id\": \"credit_card_demo_1001\"}",
+          "requestor": "assistant",
+          "error": false,
+          "timestamp": "2026-10-20T22:30:24.517299"
+        },
+        {
+          "role": "assistant",
+          "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund.",
+          "is_audio": false,
+          "timestamp": "2026-10-20T22:30:24.517303",
+          "is_final_chunk": true,
+          "contains_speech": true
+        }
+      ]
+    }
+  ]
+}

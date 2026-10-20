@@ -1,0 +1,149 @@
+[
+  {
+    "id": "sample_01_cancel_pending",
+    "description": {
+      "purpose": "Cancellation with explicit consent and original-payment refund",
+      "relevant_policies": "Authenticate first. Inspect order ownership/status. Explain details and obtain explicit confirmation before updates."
+    },
+    "user_scenario": {
+      "persona": "A cooperative customer. All account details in this scenario are synthetic.",
+      "instructions": {
+        "domain": "retail",
+        "reason_for_call": "Cancel order #W8100001 because it is no longer needed.",
+        "known_info": "Your name is Asha Example, email asha@example.test. You paid 40.00 by card ending 0000.",
+        "unknown_info": "You do not know internal user IDs or item IDs; the agent must look them up.",
+        "task_instructions": "Approve cancellation only for reason no longer needed and a 40.00 refund to the original card. Provide your email when asked. Do not approve any update before the agent explains its details. End the conversation after the requested outcome or a correct policy refusal."
+      }
+    },
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "sample_01_cancel_pending_target",
+          "requestor": "assistant",
+          "name": "cancel_pending_order",
+          "arguments": {
+            "order_id": "#W8100001",
+            "reason": "no longer needed"
+          }
+        }
+      ],
+      "communicate_info": [
+        "cancelled"
+      ],
+      "reward_basis": [
+        "DB",
+        "COMMUNICATE"
+      ]
+    }
+  },
+  {
+    "id": "sample_02_refuse_delivered",
+    "description": {
+      "purpose": "Refuse cancellation of a delivered order without mutation",
+      "relevant_policies": "Authenticate first. Inspect order ownership/status. Explain details and obtain explicit confirmation before updates."
+    },
+    "user_scenario": {
+      "persona": "A cooperative customer. All account details in this scenario are synthetic.",
+      "instructions": {
+        "domain": "retail",
+        "reason_for_call": "Cancel order #W8100002.",
+        "known_info": "Your name is Asha Example, email asha@example.test. You want cancellation only, not a return or exchange.",
+        "unknown_info": "You do not know internal user IDs or item IDs; the agent must look them up.",
+        "task_instructions": "Initially insist once that the agent cancel it anyway. If told a delivered order cannot be cancelled, accept that limitation; do not authorize a return, exchange, or any other change. Provide your email when asked. Do not approve any update before the agent explains its details. End the conversation after the requested outcome or a correct policy refusal."
+      }
+    },
+    "evaluation_criteria": {
+      "actions": [],
+      "communicate_info": [
+        "delivered"
+      ],
+      "reward_basis": [
+        "DB",
+        "COMMUNICATE"
+      ]
+    }
+  },
+  {
+    "id": "sample_03_exchange_variant",
+    "description": {
+      "purpose": "Same-product exchange with correct variant and price difference",
+      "relevant_policies": "Authenticate first. Inspect order ownership/status. Explain details and obtain explicit confirmation before updates."
+    },
+    "user_scenario": {
+      "persona": "A cooperative customer. All account details in this scenario are synthetic.",
+      "instructions": {
+        "domain": "retail",
+        "reason_for_call": "Exchange the blue size M Trail Hoodie in order #W8100003 for blue size L.",
+        "known_info": "Your name is Asha Example, email asha@example.test. Keep the color blue. You can pay the 5.00 difference with your card ending 0000.",
+        "unknown_info": "You do not know internal user IDs or item IDs; the agent must look them up.",
+        "task_instructions": "Approve only blue size L and a 5.00 charge to credit card ending 0000. Do not approve a red hoodie or another product. Provide your email when asked. Do not approve any update before the agent explains its details. End the conversation after the requested outcome or a correct policy refusal."
+      }
+    },
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "sample_03_exchange_variant_target",
+          "requestor": "assistant",
+          "name": "exchange_delivered_order_items",
+          "arguments": {
+            "order_id": "#W8100003",
+            "item_ids": [
+              "8100000001"
+            ],
+            "new_item_ids": [
+              "8100000002"
+            ],
+            "payment_method_id": "credit_card_demo_1001"
+          }
+        }
+      ],
+      "communicate_info": [
+        "exchange requested"
+      ],
+      "reward_basis": [
+        "DB",
+        "COMMUNICATE"
+      ]
+    }
+  },
+  {
+    "id": "sample_04_partial_return",
+    "description": {
+      "purpose": "Return only the bottle and preserve the mug and refund destination",
+      "relevant_policies": "Authenticate first. Inspect order ownership/status. Explain details and obtain explicit confirmation before updates."
+    },
+    "user_scenario": {
+      "persona": "A cooperative customer. All account details in this scenario are synthetic.",
+      "instructions": {
+        "domain": "retail",
+        "reason_for_call": "Return only the Steel Bottle from order #W8100004. Keep the Ceramic Mug.",
+        "known_info": "Your name is Asha Example, email asha@example.test. Use your original credit card ending 0000 for the refund, not your gift card.",
+        "unknown_info": "You do not know internal user IDs or item IDs; the agent must look them up.",
+        "task_instructions": "Approve a return request for only the bottle to the original card. The agent should describe this as a return request, not an already processed refund. Provide your email when asked. Do not approve any update before the agent explains its details. End the conversation after the requested outcome or a correct policy refusal."
+      }
+    },
+    "evaluation_criteria": {
+      "actions": [
+        {
+          "action_id": "sample_04_partial_return_target",
+          "requestor": "assistant",
+          "name": "return_delivered_order_items",
+          "arguments": {
+            "order_id": "#W8100004",
+            "item_ids": [
+              "8200000001"
+            ],
+            "payment_method_id": "credit_card_demo_1001"
+          }
+        }
+      ],
+      "communicate_info": [
+        "return requested"
+      ],
+      "reward_basis": [
+        "DB",
+        "COMMUNICATE"
+      ]
+    }
+  }
+]

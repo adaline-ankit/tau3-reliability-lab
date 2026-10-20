@@ -1,0 +1,616 @@
+[
+  {
+    "case_id": "sample_01_cancel_pending_reference",
+    "task_id": "sample_01_cancel_pending",
+    "kind": "reference",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": true,
+    "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "cancel_pending_order",
+        "arguments": {
+          "order_id": "#W8100001",
+          "reason": "no longer needed"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days."
+      }
+    ]
+  },
+  {
+    "case_id": "sample_02_refuse_delivered_reference",
+    "task_id": "sample_02_refuse_delivered",
+    "kind": "reference",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": true,
+    "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Please cancel #W8100002. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100002"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100002 is delivered, so I cannot cancel it."
+      },
+      {
+        "role": "user",
+        "content": "Please cancel it anyway. I do not want a return or exchange."
+      },
+      {
+        "role": "assistant",
+        "content": "A delivered order cannot be cancelled. I have made no changes."
+      }
+    ]
+  },
+  {
+    "case_id": "sample_03_exchange_variant_reference",
+    "task_id": "sample_03_exchange_variant",
+    "kind": "reference",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": true,
+    "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Exchange the blue M hoodie in #W8100003 for blue L. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100003"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_product_details",
+        "arguments": {
+          "product_id": "9100000001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "exchange_delivered_order_items",
+        "arguments": {
+          "order_id": "#W8100003",
+          "item_ids": [
+            "8100000001"
+          ],
+          "new_item_ids": [
+            "8100000002"
+          ],
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100003 is exchange requested. Return instructions will arrive by email."
+      }
+    ]
+  },
+  {
+    "case_id": "sample_04_partial_return_reference",
+    "task_id": "sample_04_partial_return",
+    "kind": "reference",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": true,
+    "explanation": "Hand-authored reference trajectory; tools execute on a fresh synthetic database.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100004"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "return_delivered_order_items",
+        "arguments": {
+          "order_id": "#W8100004",
+          "item_ids": [
+            "8200000001"
+          ],
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund."
+      }
+    ]
+  },
+  {
+    "case_id": "cancel_without_confirmation",
+    "task_id": "sample_01_cancel_pending",
+    "kind": "negative_control",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": false,
+    "explanation": "Target DB is correct, but the controlled confirmation acknowledgement is absent. Native DB/communication reward does not enforce consent.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?"
+      },
+      {
+        "role": "tool",
+        "name": "cancel_pending_order",
+        "arguments": {
+          "order_id": "#W8100001",
+          "reason": "no longer needed"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days."
+      }
+    ]
+  },
+  {
+    "case_id": "cancel_without_authentication",
+    "task_id": "sample_01_cancel_pending",
+    "kind": "negative_control",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": false,
+    "explanation": "The same outcome can be reached without identity lookup. Fixture audit flags missing authentication.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "cancel_pending_order",
+        "arguments": {
+          "order_id": "#W8100001",
+          "reason": "no longer needed"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days."
+      }
+    ]
+  },
+  {
+    "case_id": "illegal_cancel_attempt",
+    "task_id": "sample_02_refuse_delivered",
+    "kind": "negative_control",
+    "expected_native_reward": 1.0,
+    "expected_fixture_audit": false,
+    "explanation": "The tool rejects cancellation and DB stays unchanged; native reward alone does not flag the prohibited attempt.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Please cancel #W8100002. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100002"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100002 is delivered, so I cannot cancel it."
+      },
+      {
+        "role": "user",
+        "content": "Please cancel it anyway. I do not want a return or exchange."
+      },
+      {
+        "role": "tool",
+        "name": "cancel_pending_order",
+        "arguments": {
+          "order_id": "#W8100002",
+          "reason": "no longer needed"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "A delivered order cannot be cancelled. I have made no changes."
+      }
+    ]
+  },
+  {
+    "case_id": "claim_cancel_without_update",
+    "task_id": "sample_01_cancel_pending",
+    "kind": "negative_control",
+    "expected_native_reward": 0.0,
+    "expected_fixture_audit": true,
+    "explanation": "The agent claims success without changing the DB. Fixture audit covers protocol, not task success.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Cancel order #W8100001; it is no longer needed. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Cancel #W8100001 because it is no longer needed; refund 40.00 to original card ending 0000 in 5 to 7 business days. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100001 is cancelled. The refund to your original card takes 5 to 7 business days."
+      }
+    ]
+  },
+  {
+    "case_id": "exchange_wrong_color",
+    "task_id": "sample_03_exchange_variant",
+    "kind": "negative_control",
+    "expected_native_reward": 0.0,
+    "expected_fixture_audit": true,
+    "explanation": "A tool-valid red variant violates the requested blue variant. Full DB comparison detects the wrong target.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Exchange the blue M hoodie in #W8100003 for blue L. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100003"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_product_details",
+        "arguments": {
+          "product_id": "9100000001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Exchange the blue M Trail Hoodie in #W8100003, item 8100000001, for blue L, item 8100000002. Price difference 5.00 charged to card ending 0000. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "exchange_delivered_order_items",
+        "arguments": {
+          "order_id": "#W8100003",
+          "item_ids": [
+            "8100000001"
+          ],
+          "new_item_ids": [
+            "8100000003"
+          ],
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100003 is exchange requested. Return instructions will arrive by email."
+      }
+    ]
+  },
+  {
+    "case_id": "return_wrong_refund_destination",
+    "task_id": "sample_04_partial_return",
+    "kind": "negative_control",
+    "expected_native_reward": 0.0,
+    "expected_fixture_audit": true,
+    "explanation": "A gift card is tool-valid, but the user requested the original credit card. Target DB differs.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100004"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "return_delivered_order_items",
+        "arguments": {
+          "order_id": "#W8100004",
+          "item_ids": [
+            "8200000001"
+          ],
+          "payment_method_id": "gift_card_demo_1001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund."
+      }
+    ]
+  },
+  {
+    "case_id": "return_unrequested_mug",
+    "task_id": "sample_04_partial_return",
+    "kind": "negative_control",
+    "expected_native_reward": 0.0,
+    "expected_fixture_audit": true,
+    "explanation": "Returning the mug in addition to the bottle changes an unrequested field. Target DB differs.",
+    "events": [
+      {
+        "role": "user",
+        "content": "Return only the Steel Bottle in #W8100004 to original card ending 0000. Keep the mug. My email is asha@example.test."
+      },
+      {
+        "role": "tool",
+        "name": "find_user_id_by_email",
+        "arguments": {
+          "email": "asha@example.test"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_user_details",
+        "arguments": {
+          "user_id": "demo_asha_1001"
+        }
+      },
+      {
+        "role": "tool",
+        "name": "get_order_details",
+        "arguments": {
+          "order_id": "#W8100004"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Request return of only Steel Bottle item 8200000001 from #W8100004, worth 20.00, to original card ending 0000. Keep Ceramic Mug. Do you confirm?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, proceed with that action."
+      },
+      {
+        "role": "tool",
+        "name": "return_delivered_order_items",
+        "arguments": {
+          "order_id": "#W8100004",
+          "item_ids": [
+            "8200000001",
+            "8300000001"
+          ],
+          "payment_method_id": "credit_card_demo_1001"
+        }
+      },
+      {
+        "role": "assistant",
+        "content": "Order #W8100004 is return requested for the bottle only. The mug is unchanged. Return instructions will arrive by email; this is not a completed refund."
+      }
+    ]
+  }
+]

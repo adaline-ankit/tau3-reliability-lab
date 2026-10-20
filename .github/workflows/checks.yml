@@ -1,0 +1,30 @@
+name: Offline validation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - name: Install pinned public dependencies
+        run: python3 bootstrap.py
+      - name: Verify source identity
+        run: python3 bootstrap.py --check
+      - name: Test native integration and transport contracts
+        run: .upstream/.venv/bin/python -m unittest discover -s tests -v
+      - name: Reproduce replay controls
+        run: .upstream/.venv/bin/python sample.py offline-demo
+      - name: Lint
+        run: uvx --from ruff==0.15.17 ruff check .
+      - name: Check formatting
+        run: uvx --from ruff==0.15.17 ruff format --check .
+      - name: Validate sharing inventory
+        run: python3 package_sample.py --check

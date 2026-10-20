@@ -1,0 +1,156 @@
+[
+  {
+    "directory": "codex_20261020T173011096826Z",
+    "requested_model": "gpt-5.6-sol",
+    "customer_protocol": "baseline_before_confirmation_guard",
+    "planned_trials": 4,
+    "attempted_trials": 4,
+    "model_calls": 7,
+    "rows": [
+      {
+        "task_id": "sample_01_cancel_pending",
+        "trial": 0,
+        "termination": "infrastructure_error",
+        "native_reward": null,
+        "db_match": null,
+        "reward_breakdown": {},
+        "category": "infrastructure_failure",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_02_refuse_delivered",
+        "trial": 0,
+        "termination": "infrastructure_error",
+        "native_reward": null,
+        "db_match": null,
+        "reward_breakdown": {},
+        "category": "infrastructure_failure",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_03_exchange_variant",
+        "trial": 0,
+        "termination": "infrastructure_error",
+        "native_reward": null,
+        "db_match": null,
+        "reward_breakdown": {},
+        "category": "infrastructure_failure",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_04_partial_return",
+        "trial": 0,
+        "termination": "infrastructure_error",
+        "native_reward": null,
+        "db_match": null,
+        "reward_breakdown": {},
+        "category": "infrastructure_failure",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      }
+    ]
+  },
+  {
+    "directory": "codex_20261020T173827795034Z",
+    "requested_model": "gpt-5.6-luna",
+    "customer_protocol": "baseline_before_confirmation_guard",
+    "planned_trials": 1,
+    "attempted_trials": 1,
+    "model_calls": 7,
+    "rows": [
+      {
+        "task_id": "sample_01_cancel_pending",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 0.0,
+        "db_match": false,
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 0.0
+        },
+        "category": "native_outcome_not_met",
+        "possible_premature_customer_stop": true,
+        "tool_errors": 0
+      }
+    ]
+  },
+  {
+    "directory": "codex_20261020T174145566328Z",
+    "requested_model": "gpt-5.6-luna",
+    "customer_protocol": "baseline_before_confirmation_guard",
+    "planned_trials": 3,
+    "attempted_trials": 3,
+    "model_calls": 22,
+    "rows": [
+      {
+        "task_id": "sample_02_refuse_delivered",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 1.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "category": "native_outcome_success",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_03_exchange_variant",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 0.0,
+        "db_match": false,
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 0.0
+        },
+        "category": "native_outcome_not_met",
+        "possible_premature_customer_stop": true,
+        "tool_errors": 0
+      },
+      {
+        "task_id": "sample_04_partial_return",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 0.0,
+        "db_match": false,
+        "reward_breakdown": {
+          "DB": 0.0,
+          "COMMUNICATE": 0.0
+        },
+        "category": "native_outcome_not_met",
+        "possible_premature_customer_stop": true,
+        "tool_errors": 0
+      }
+    ]
+  },
+  {
+    "directory": "codex_20261020T175014927690Z",
+    "requested_model": "gpt-5.6-luna",
+    "customer_protocol": "confirmation_guard_v1",
+    "planned_trials": 1,
+    "attempted_trials": 1,
+    "model_calls": 11,
+    "rows": [
+      {
+        "task_id": "sample_01_cancel_pending",
+        "trial": 0,
+        "termination": "user_stop",
+        "native_reward": 1.0,
+        "db_match": true,
+        "reward_breakdown": {
+          "DB": 1.0,
+          "COMMUNICATE": 1.0
+        },
+        "category": "native_outcome_success",
+        "possible_premature_customer_stop": false,
+        "tool_errors": 0
+      }
+    ]
+  }
+]

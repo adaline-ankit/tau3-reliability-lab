@@ -1,63 +1,55 @@
-# Independent τ-bench sample
+# τ³ Reliability Lab: sample report
 
-Prepared for a freelance benchmarking discussion. Date: 20 October 2026.
+Prepared on 20 October 2026 as an independent, AI-assisted benchmarking work sample.
 
-## Purpose
+## Problem and implementation
 
-Demonstrate a complete, inspectable path from an authored customer scenario to actual tool execution, independently replayed state evaluation, and a concise explanation of failures. The sample uses public τ-bench components and newly created synthetic records. It was prepared with AI coding assistance and contains no Adaline implementation, data, prompts, logs, or historical results.
+A conversational agent can reach the correct final state while skipping authentication or consent. It can also confidently claim success without making the required state change. This lab makes those differences inspectable.
 
-## What was built
+Four authored text-retail scenarios use two fictional accounts, three products, and five orders. Newly written wrappers load a fresh synthetic database for every environment. The public τ³ task schema, retail tools, text orchestrator, and evaluator are reused without modification.
 
-Four retail tasks cover cancellation, policy refusal, variant selection, and a partial return with a specific refund destination. Each task includes user-simulator instructions, relevant policy context, reference actions, communication requirements, and an explicit reward basis. The scenario specifications are in [tasks.json](data/tasks.json).
+## What the executed baseline shows
 
-The environment is small enough to inspect: two fictional accounts, three products, five orders, and synthetic payment references. Upstream `RetailTools` executes against that database without modification. A separate `portfolio_retail` registry entry keeps the sample dataset separate from the bundled retail benchmark.
+Four reference traces and seven designed negative controls run through real tools and native replay evaluation. Their actual tool outputs, database hashes, conversations, and reward breakdowns are retained in [raw evidence](results/offline_results.json).
 
-## Evaluation mechanism
-
-1. Create a fresh environment from the synthetic fixture.
-2. Execute a scripted trajectory and record actual tool outputs.
-3. Ask upstream `evaluate_simulation(..., EvaluationType.ALL)` to replay the trajectory independently.
-4. Replay the task's reference actions on another fresh environment to derive the target state.
-5. Compare database hashes and evaluate required communication strings.
-6. Report native reward separately from limited fixture-protocol diagnostics.
-
-These tasks explicitly use `DB` and `COMMUNICATE` as their reward basis. Native reward is their product. Reference actions define the target database state; they do not require an exact tool sequence because `ACTION` is not in the basis. Communication is substring matching in this pinned version. Neither check is a complete policy or truthfulness evaluation.
-
-## Executed evidence
-
-| Check | Observed result |
-|---|---|
-| Native schema validation | All four tasks accepted |
-| Four scripted reference cases | All receive native reward 1 and pass the limited fixture audit |
-| Seven intentional negative controls | All reproduce the specified native reward and audit outcome |
-| Regression tests | See `VERIFICATION.md` for the executed command and final test count |
-| Live configuration smoke check | All four native orchestrators construct with outbound connections blocked |
-| Live model evaluation | Not run; zero LLM calls in supplied results |
-
-The [executed report](results/REPLAY_REPORT.md) records each case. [Raw evidence](results/offline_results.json) includes actual tool arguments, tool outputs, full conversations, reward breakdowns, and database hashes. The generated `SimulationRun` objects describe scripted fixtures; their zero duration is a placeholder, not a measured latency.
-
-## Failure analysis
-
-| Control | Native reward | Interpretation |
+| Controlled defect | Native reward | Evidence interpretation |
 |---|---:|---|
-| Claim cancellation without calling its tool | 0 | Conversation text does not substitute for the required database update |
-| Exchange for red instead of blue | 0 | Tool accepts a valid alternative, but target state encodes the user's requested variant |
-| Refund to gift card instead of original card | 0 | Tool-valid choice can still violate the task |
-| Return mug as well as bottle | 0 | Unrequested state changes invalidate success |
-| Cancel without explicit confirmation | 1 | Final state and required wording can pass while consent is missing |
-| Cancel without identity lookup | 1 | Outcome reward does not establish authentication was performed |
-| Attempt prohibited delivered-order cancellation, then correctly refuse | 1 | Tool rejects the update; unchanged end state and required wording can still pass |
+| Claims cancellation without update | 0 | Required database state is absent |
+| Exchanges for red rather than blue | 0 | Tool-valid alternative disagrees with requested target |
+| Refund destination is gift card rather than original card | 0 | Target state records a different refund destination |
+| Returns mug as well as bottle | 0 | Extra state changes invalidate task success |
+| Cancels without confirmation | 1 | Native outcome does not establish consent |
+| Cancels without identity lookup | 1 | Native outcome does not establish authentication |
+| Attempts forbidden delivered-order cancellation, then refuses | 1 | Tool rejection leaves final state unchanged |
 
-The last three controls are intentional demonstrations of evaluator scope. The separate fixture audit flags them, while preserving the native reward in the report. It checks controlled acknowledgement order, successful email lookup before private calls, tool errors, and basic one-tool-per-message shape. It does not interpret arbitrary consent wording, validate proposal details, enforce every ownership rule, or certify overall compliance.
+These are deliberately constructed controls, not estimates of real-world failure prevalence. The fixture diagnostic flags the last three while preserving the native reward. Its exact acknowledgement check is limited to authored fixtures and is not a general consent detector.
 
-## What a live experiment would add
+## Native evaluation contract
 
-Run an LLM agent against an independently prompted LLM user simulator, preserve model identifiers and parameters, repeat each task, and inspect all failures. Report task success, policy review, simulator errors, termination, latency, and cost separately. The native live entrypoint is wired and construction-tested; API execution is still pending.
+Tasks explicitly select `DB` and `COMMUNICATE`. The predicted environment replays recorded actions; a separate target environment replays reference actions. Full database hashes are compared. Required communication strings are matched by substring. The final reward is the product of selected components. Reference actions do not force an exact sequence unless the task also selects `ACTION`.
 
-For repeated runs, τ-bench's `pass^k` concerns consistency across all k attempts. It differs from `pass@k`, which concerns at least one success. With n trials and c successes for one task, the usual finite-sample estimator is `C(c, k) / C(n, k)` for `n >= k`, averaged across tasks. The supplied scripted cases are not independent model trials, so no model `pass^k` is reported. Four authored scenarios also do not support a general performance claim or comparison to an official leaderboard.
+The important distinction is outcome correctness versus policy obligations. Keeping native reward, fixture diagnostics, and semantic review separate preserves their different meanings.
 
-## Reproduction and scope
+## Codex upgrade
 
-Public dependency: [Sierra τ-bench, pinned commit](https://github.com/sierra-research/tau2-bench/tree/fc0055dc4e0a316c3f83133267fbd6faaa770992). Installation and commands: [README.md](README.md). Source attribution: [PROVENANCE.md](PROVENANCE.md).
+`CodexAgent` and `CodexCustomer` implement native participant interfaces. The public text orchestrator routes their messages and executes tools. The transport uses saved ChatGPT login, structured outputs, successful completion receipts, and a bounded call count; separately billed API keys are excluded.
 
-This sample demonstrates task authoring, native integration, reference validation, negative-control design, and evidence-led failure analysis. It contains no live model performance result and makes no claim about an employer's system.
+Agent inputs contain policy, tool schemas, and conversation. Customer inputs contain scenario instructions and customer-visible dialogue. Expected actions are evaluator-only. Temporary working directories and native-tool restrictions reduce accidental answer access. Managed runtime context is not fully controlled, so this is not a proof of complete isolation or an official leaderboard configuration.
+
+Completed and failed attempts are distinct evidence. The first model batch produced partial dialogue and infrastructure errors; a separate diagnostic returned HTTP 429. The runner now stops after a transport failure and preserves the partial attempt. Current and subsequent model-run receipts are linked in [EXPERIMENT_STATUS.md](docs/EXPERIMENT_STATUS.md).
+
+## Semantic review
+
+A separate Codex entrypoint reviews authentication, ownership, consent, request adherence, policy eligibility, and execution truthfulness. It can be calibrated against the controlled traces, with labels hidden from its prompt. Findings must cite valid message indexes. A same-family reviewer is not independent certification; execution and calibration status must be verified before reporting review results.
+
+The executed six-review run agreed with all four selected control labels. It nevertheless missed the original customer's premature termination when assessing customer fidelity. The [reviewer limitation](results/review_20261020T175350498796Z/REVIEW_LIMITATIONS.md) preserves that contradiction. Control agreement and complete evaluation coverage are different claims.
+
+## Evidence and limits
+
+- [Replay report](results/REPLAY_REPORT.md): executed scripted controls.
+- [Experiment status](docs/EXPERIMENT_STATUS.md): probes, real attempts, failures, and subsequent runs.
+- [Verification](VERIFICATION.md): exact local checks and CI status.
+- [Walkthrough](docs/WALKTHROUGH.md): mechanism-first explanation and comprehension checks.
+- [Provenance](PROVENANCE.md): public dependencies, original work, and source contracts.
+
+No employer system result is claimed. Scripted fixtures are not model trials. A single completed task does not establish reliability across repeats, and incomplete transport attempts cannot establish a capability score. Sampling seed and temperature are not exposed by the Codex adapter; returned token counters and elapsed times have their own measurement boundaries.

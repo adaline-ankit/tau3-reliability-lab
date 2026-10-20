@@ -51,7 +51,6 @@ with offline_network():
     from tau2.data_model.simulation import (
         SimulationRun,
         TerminationReason,
-        TextRunConfig,
     )
     from tau2.data_model.tasks import Task
     from tau2.domains.retail.data_model import RetailDB
@@ -257,96 +256,15 @@ def offline_demo():
     )
 
 
-def live(args):
-    if args.trials < 1:
-        raise ValueError("trials must be positive")
-    if not all(m.startswith("openai/") for m in (args.agent_model, args.user_model)):
-        raise ValueError(
-            "This sample's live entrypoint requires explicit openai/ model names."
-        )
-    if not args.dry_run:
-        key = os.environ.get("SAMPLE_OPENAI_API_KEY")
-        if not key:
-            raise ValueError(
-                "Set SAMPLE_OPENAI_API_KEY to a personally authorized key. Ambient OPENAI_API_KEY is not used."
-            )
-        os.environ["OPENAI_API_KEY"] = key
-        for name in (
-            "OPENAI_API_BASE",
-            "OPENAI_BASE_URL",
-            "OPENAI_ORGANIZATION",
-            "OPENAI_ORG_ID",
-            "OPENAI_PROJECT_ID",
-        ):
-            os.environ.pop(name, None)
-    run_dir = (
-        ROOT
-        / "results"
-        / ("live_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
-    )
-    config = TextRunConfig(
-        domain=DOMAIN,
-        task_set_name=DOMAIN,
-        task_split_name="base",
-        llm_agent=args.agent_model,
-        llm_user=args.user_model,
-        llm_args_agent={"temperature": 0},
-        llm_args_user={"temperature": 0},
-        num_trials=args.trials,
-        max_concurrency=1,
-        max_steps=60,
-        max_errors=3,
-        max_retries=0,
-        timeout=180,
-        seed=42,
-        save_to=str(run_dir),
-        enforce_communication_protocol=True,
-        auto_review=False,
-        verbose_logs=False,
-    )
-    config.validate()
-    if args.dry_run:
-        from tau2.runner.build import build_orchestrator
-
-        with offline_network():
-            for task in load_tasks():
-                build_orchestrator(config, task, seed=42)
-        print(
-            "Live configurations and 4 orchestrators built. No model/API calls; no live scores."
-        )
-        return
-    from tau2.run import run_domain
-
-    result = run_domain(config)
-    (run_dir / "LIVE_RUN_NOTICE.md").write_text(
-        "# Live run\n\nThis run evaluates four authored demonstration tasks, not an official leaderboard split. "
-        "Review results.json for run termination, reward, costs, and traces. The fixture-only audit is not applied. "
-        "Do not infer comprehensive policy compliance or general model performance from four authored tasks.\n"
-    )
-    print(
-        f"Live results saved under {run_dir.name}/. Inspect all trajectories before sharing."
-    )
-    return result
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser(
         "offline-demo", help="Replay 11 authored controls with network blocked"
     )
-    api = commands.add_parser(
-        "live", help="Optional paid API run; requires an explicit personal sample key"
-    )
-    api.add_argument("--agent-model", required=True)
-    api.add_argument("--user-model", required=True)
-    api.add_argument("--trials", type=int, default=1)
-    api.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     if args.command == "offline-demo":
         offline_demo()
-    else:
-        live(args)
 
 
 if __name__ == "__main__":

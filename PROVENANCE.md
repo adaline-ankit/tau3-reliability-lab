@@ -32,8 +32,14 @@ The retail policy is adapted from the [public upstream policy](https://github.co
 
 All identities and addresses in the fixtures are fictional. Emails use the reserved `.test` namespace; payment IDs and card suffixes are synthetic references.
 
+## Codex transport sources
+
+The Codex adapter follows [official non-interactive execution documentation](https://learn.chatgpt.com/docs/non-interactive-mode) for JSONL events, schema-constrained output, and saved authentication, and the [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference) for tool, instruction, and integration settings. Installed CLI help and executed probes verify the locally available flags. Native participant interfaces and orchestration come from the same pinned upstream source.
+
+No API credential is extracted or copied. Child processes inherit saved-login location variables and ordinary runtime settings, while API-key environment variables are excluded. Managed Codex runtime instructions may still be injected; source-file and prompt boundaries do not prove complete context isolation.
+
 ## Evidence boundaries
 
-Supplied results come from executing authored tool sequences against the public implementation. They validate scenario targets and grader behavior. They do not show how an LLM would select those actions, establish past work, measure general reliability, or prove complete policy compliance. Native live configuration and orchestrator construction were checked without making model calls.
+The original replay results come from executing authored tool sequences against the public implementation. They validate scenario targets and grader behavior. Codex probes, partial attempts, completed task runs if available, and semantic reviews are retained separately and summarized in [experiment status](docs/EXPERIMENT_STATUS.md). None establishes past work, general reliability, or complete policy compliance.
 
-The explicit-allowlist archive excludes `.env` files, credentials, `.upstream`, virtual environments, caches, private local notes, and optional live-run directories. `SHA256SUMS.txt` records checksums of the included files other than itself.
+The explicit inventory in `PUBLIC_FILES.json` excludes `.env` files, credentials, `.upstream`, virtual environments, caches, raw CLI diagnostics, and private outreach notes. Only reviewed model-run records are included. `SHA256SUMS.txt` records checksums of the included files other than itself.

@@ -1,38 +1,29 @@
 # Verification receipt
 
-Date: 20 October 2026. Platform: macOS, Python 3.12.9.
+Date: 20 October 2026. Local platform: macOS, Python 3.12.9, Ruff 0.15.17.
 
-## Executed checks
+## Local checks
 
-| Command | Result |
+| Check | Executed result |
 |---|---|
-| `python3 bootstrap.py --check` | Public origin, exact pinned commit, and clean tracked dependency files verified |
-| `.upstream/.venv/bin/python -m unittest discover -s tests -v` | Six tests passed, including all eleven reference/negative-control subcases |
-| `.upstream/.venv/bin/python sample.py offline-demo` | Four reference cases and seven negative controls match expected native rewards and fixture-audit outcomes; zero LLM calls |
-| `.upstream/.venv/bin/python sample.py live --agent-model openai/example-agent --user-model openai/example-user --trials 4 --dry-run` | Native configuration accepted and all four orchestrators constructed; no model/API calls |
-| `ruff check sample.py bootstrap.py package_sample.py tests` | Passed |
-| `ruff format --check sample.py bootstrap.py package_sample.py tests` | Passed |
+| `python3 bootstrap.py --check` | Exact public origin, pinned commit, and clean tracked dependency files verified |
+| `.upstream/.venv/bin/python -m unittest discover -s tests -v` | 27 tests passed, including eleven replay-control subcases |
+| `.upstream/.venv/bin/python sample.py offline-demo` | Four references and seven negative controls reproduced expected outcomes; no model calls |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed |
 
-The model names in the dry run are deliberately placeholders. Construction success does not establish model availability, valid credentials, provider compatibility, or successful live evaluation.
+The native integration test executes the real upstream orchestrator with deterministic participant stubs, real tools, and native evaluation. It reaches the expected cancellation state with reward 1. Other tests check participant input separation, completion receipts, rejection of native Codex tools, customer-stop semantics, reviewer evidence indexes, run attribution, fresh state, and unsafe packaging paths.
 
-## Scope
+These tests validate implementation contracts. Actual model performance is separate evidence in [experiment status](docs/EXPERIMENT_STATUS.md). Tests and CI do not make Codex calls or need model credentials.
 
-Tests use the real pinned upstream `Task`, `RetailTools`, environment, and evaluators. They verify the sample's integration and expected control behavior. They are not a performance test of an LLM. The protocol diagnostic is intentionally limited to controlled replay fixtures; it does not validate full policy compliance.
+## Reproduction and sharing
 
-## Fresh archive reproduction
+The upgraded 55-file archive was extracted into a new temporary directory. It cloned the exact public dependency and installed 75 core packages without copying the authoring checkout or virtual environment. All 27 tests, eleven replay controls, and inventory validation passed from that extraction. Local package caches were available; this was a fresh installation, not an uncached-download test. ZIP integrity, all 54 file checksums, and Markdown relative links were also verified. The repository includes an Ubuntu CI workflow for the same offline checks.
 
-The sharing ZIP was extracted into a newly created temporary directory. No dependency checkout or virtual environment was copied from the authoring directory. The following commands then completed successfully from the extracted package:
+The sharing archive uses an explicit public-file inventory. `python3 package_sample.py --check` validates file existence, containment, symlinks, excluded paths, and obvious credential patterns. `python3 package_sample.py` writes a ZIP and a SHA-256 manifest. Private raw CLI diagnostics, private outreach notes, caches, and the dependency checkout are excluded. Content review is still required; a path filter is not a comprehensive secret detector.
 
-```bash
-python3 bootstrap.py
-.upstream/.venv/bin/python -m unittest discover -s tests -v
-.upstream/.venv/bin/python sample.py offline-demo
-.upstream/.venv/bin/python sample.py live \
-  --agent-model openai/example-agent \
-  --user-model openai/example-user \
-  --trials 4 --dry-run
-```
+## Model evidence boundaries
 
-Setup fetched the exact public commit and installed 75 core packages from the upstream lockfile. All six tests passed, all eleven scripted outcomes matched, and all four live orchestrators constructed without API calls. This reproduction uses local package caches where available; installation was fresh, not an uncached download test.
+Codex CLI 0.145.0 uses saved ChatGPT login. Failed attempts, paced baseline runs, and changed-protocol reruns have separate evidence directories. Native reward is retained independently of policy review. Reported token counters come from completion events; per-call dollar cost, model seed, and temperature are unavailable. Managed Codex instructions are not fully controlled by this adapter.
 
-ZIP integrity and all 16 manifest file checksums were verified. Archive entries were checked for path traversal, dependency checkouts, virtual environments, `.env` files, caches, and optional live-run directories. The shared raw replay payload was also checked for local absolute paths and credential fields; none were present. All relative links in the supplied Markdown files resolve.
+All real-run results, including failures and simulator defects, are linked from [EXPERIMENT_STATUS.md](docs/EXPERIMENT_STATUS.md). A successful infrastructure check is not a completed task, and a completed task is not a general reliability estimate.

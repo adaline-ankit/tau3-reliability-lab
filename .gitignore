@@ -9,3 +9,5 @@ dist/
 .ruff_cache/
 .runs/
 .pytest_cache/
+docs/KAILASH_DISCUSSION.md
+UPGRADE_PLAN.md

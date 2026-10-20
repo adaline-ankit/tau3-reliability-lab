@@ -2,7 +2,7 @@
 
 **Scripted validation only. No LLM or user simulator was evaluated.**
 
-Upstream: `fc0055dc4e0a316c3f83133267fbd6faaa770992`. Generated: 2026-10-20T17:00:24.529199+00:00.
+Upstream: `fc0055dc4e0a316c3f83133267fbd6faaa770992`. Generated: 2026-10-20T17:51:55.682611+00:00.
 
 Native reward uses the task's DB and COMMUNICATE components. Fixture audit is separate, limited to controlled acknowledgements, authentication order, protocol shape, and tool errors.
 
